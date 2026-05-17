@@ -79,10 +79,15 @@ async function buildAuth() {
 export async function getAuth(): Promise<ReturnType<typeof betterAuth>> {
   if (_authInstance) return _authInstance;
   if (!_initPromise) {
-    _initPromise = buildAuth().then((instance) => {
-      _authInstance = instance;
-      return instance;
-    });
+    _initPromise = buildAuth()
+      .then((instance) => {
+        _authInstance = instance;
+        return instance;
+      })
+      .catch((err) => {
+        _initPromise = null;
+        throw err;
+      });
   }
   return _initPromise;
 }
