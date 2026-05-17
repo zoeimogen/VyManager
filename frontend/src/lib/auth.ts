@@ -60,6 +60,7 @@ async function buildAuth() {
       process.env.BETTER_AUTH_URL ||
       process.env.NEXT_PUBLIC_APP_URL ||
       "http://localhost:3000",
+    basePath: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/auth`,
     secret: authSecret,
     trustedOrigins: trustedOrigins,
     advanced: {

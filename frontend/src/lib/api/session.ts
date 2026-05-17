@@ -7,7 +7,7 @@
  * - Get current active session
  */
 
-import { apiClient } from "./client";
+import { apiClient, apiPath } from "./client";
 import { ApiError } from "@/lib/types/api";
 
 // ============================================================================
@@ -234,7 +234,7 @@ class SessionService {
    */
   async exportCSV(): Promise<void> {
     // Use Next.js API proxy to forward request to backend with proper auth
-    const response = await fetch("/api/session/export-csv", {
+    const response = await fetch(apiPath("/api/session/export-csv"), {
       method: "GET",
       credentials: "include",
     });
@@ -282,7 +282,7 @@ class SessionService {
     formData.append("file", file);
 
     // Use Next.js API proxy to forward request to backend with proper auth
-    const response = await fetch("/api/session/import-csv", {
+    const response = await fetch(apiPath("/api/session/import-csv"), {
       method: "POST",
       credentials: "include",
       body: formData,

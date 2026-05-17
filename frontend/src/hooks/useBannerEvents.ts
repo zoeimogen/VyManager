@@ -5,6 +5,7 @@ import type { ConfigDiff, CommitConfirmStatus } from "@/lib/api/config";
 import type { PowerStatusResponse } from "@/lib/api/power";
 import { configService } from "@/lib/api/config";
 import { powerService } from "@/lib/api/power";
+import { apiPath } from "@/lib/api/client";
 
 // ============================================================================
 // Types
@@ -85,7 +86,7 @@ export function useBannerEvents(): BannerSSEState {
 
       setStatus("connecting");
 
-      const es = new EventSource("/api/vyos/events/banners");
+      const es = new EventSource(apiPath("/api/vyos/events/banners"));
       esRef.current = es;
 
       es.onopen = () => {

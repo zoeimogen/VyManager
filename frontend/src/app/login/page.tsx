@@ -13,6 +13,7 @@ import { ActiveSessionWarningModal } from "@/components/auth/ActiveSessionWarnin
 import { OAuthProviderConfig } from "@/lib/api/oauth";
 import { ProviderIcon } from "@/components/authentication/ProviderIcon";
 import { WELL_KNOWN_PROVIDERS } from "@/lib/api/oauth";
+import { apiPath } from "@/lib/api/client";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function LoginPage() {
       try {
         // Use the frontend proxy instead of direct backend access
         // This works around Docker networking issues where browser can't access backend directly
-        const response = await fetch(`/api/session/onboarding-status`, {
+        const response = await fetch(apiPath(`/api/session/onboarding-status`), {
           method: "GET",
         });
 
@@ -82,7 +83,7 @@ export default function LoginPage() {
   const [oauthLoading, setOauthLoading] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/oauth-config/public")
+    fetch(apiPath("/api/oauth-config/public"))
       .then((r) => (r.ok ? r.json() : { providers: [] }))
       .then((data) => setOauthProviders(data.providers ?? []))
       .catch(() => setOauthProviders([]));

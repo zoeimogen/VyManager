@@ -1,5 +1,7 @@
 // OAuth provider configuration API service
 
+import { apiPath } from "./client";
+
 export interface OAuthProviderConfig {
   id: string;
   providerId: string;
@@ -49,7 +51,7 @@ class OAuthConfigService {
     path: string,
     options?: RequestInit
   ): Promise<T> {
-    const res = await fetch(path, {
+    const res = await fetch(apiPath(path), {
       credentials: "include",
       headers: { "Content-Type": "application/json" },
       ...options,

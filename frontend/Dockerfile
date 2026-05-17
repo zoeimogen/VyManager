@@ -1,6 +1,9 @@
 # ---- Build Stage ----
 FROM node:24-alpine AS builder
 
+ARG NEXT_PUBLIC_BASE_PATH=""
+ENV NEXT_PUBLIC_BASE_PATH=${NEXT_PUBLIC_BASE_PATH}
+
 WORKDIR /app
 
 # Install required system packages
@@ -22,6 +25,8 @@ RUN npx prisma generate
 
 # Build Next.js for production
 ENV NODE_ENV=production
+ENV BETTER_AUTH_SECRET=dummy_secret_for_build_only
+ENV BACKEND_URL=http://backend:8000
 RUN npm run build
 
 

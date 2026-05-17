@@ -20,6 +20,7 @@ import { Loader2, AlertCircle, CheckCircle2, Building2, Server, User } from "luc
 import { signUp, signIn } from "@/lib/auth-client";
 import { sessionService } from "@/lib/api/session";
 import { ApiError } from "@/lib/types/api";
+import { apiPath } from "@/lib/api/client";
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -35,7 +36,7 @@ export default function OnboardingPage() {
     const checkOnboardingAccess = async () => {
       try {
         console.log("[OnboardingPage] Checking if onboarding is needed...");
-        const response = await fetch("/api/session/onboarding-status", {
+        const response = await fetch(apiPath("/api/session/onboarding-status"), {
           method: "GET",
         });
 
@@ -153,7 +154,7 @@ export default function OnboardingPage() {
       // SECURITY: Re-check onboarding status before creating account
       // Prevents race condition if someone else completed onboarding while form was open
       console.log("[Onboarding] Validating onboarding is still needed...");
-      const statusCheck = await fetch("/api/session/onboarding-status", {
+      const statusCheck = await fetch(apiPath("/api/session/onboarding-status"), {
         method: "GET",
       });
 
@@ -206,7 +207,7 @@ export default function OnboardingPage() {
 
       // Step 1.75: Set first user as ADMIN
       console.log("[Onboarding] Setting user as ADMIN...");
-      const setAdminResult = await fetch("/api/session/set-first-user-admin", {
+      const setAdminResult = await fetch(apiPath("/api/session/set-first-user-admin"), {
         method: "POST",
       });
 
