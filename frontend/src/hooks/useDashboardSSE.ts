@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { InterfaceCounter } from "@/lib/api/show";
+import { apiPath } from "@/lib/api/client";
 
 // ============================================================================
 // Types
@@ -112,7 +113,7 @@ export function useDashboardSSE(): DashboardSSEState {
   useEffect(() => {
     setStatus("connecting");
 
-    const es = new EventSource("/api/vyos/show/stream");
+    const es = new EventSource(apiPath("/api/vyos/show/stream"));
     esRef.current = es;
 
     es.addEventListener("connected", () => {

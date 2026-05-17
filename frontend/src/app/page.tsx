@@ -10,6 +10,7 @@ import { useSession } from "@/lib/auth-client";
 import { useSessionStore } from "@/store/session-store";
 import { dashboardService, DashboardCard, DashboardLayout } from "@/lib/api/dashboard";
 import { versionService, VersionCheckResponse } from "@/lib/api/version";
+import { apiPath } from "@/lib/api/client";
 import { InterfaceStatisticsCard } from "@/components/dashboard/InterfaceStatisticsCard";
 import { SystemInfoCard } from "@/components/dashboard/SystemInfoCard";
 import { WireGuardPeersCard } from "@/components/dashboard/WireGuardPeersCard";
@@ -165,7 +166,7 @@ export default function Home() {
 
       if (!session?.user) {
         try {
-          const response = await fetch(`/api/session/onboarding-status`, {
+          const response = await fetch(apiPath(`/api/session/onboarding-status`), {
             method: "GET",
           });
 
@@ -200,7 +201,7 @@ export default function Home() {
 
       // Check if user has permission to edit the dashboard layout
       try {
-        const perms = await fetch("/api/vyos/permissions", { credentials: "include" });
+        const perms = await fetch(apiPath("/api/vyos/permissions"), { credentials: "include" });
         if (perms.ok) {
           const data = await perms.json();
           setCanEditDashboard(data["DASHBOARD"] === "WRITE");

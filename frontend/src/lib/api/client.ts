@@ -3,12 +3,18 @@
  * Base configuration for communicating with the VyOS backend API
  */
 
+// Prefix a path with the build-time base path (empty string for root deployments).
+// Use this for every client-side fetch/EventSource that constructs an absolute path.
+export function apiPath(path: string): string {
+  return `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}${path}`;
+}
+
 // Use /api proxy in browser to avoid CORS, direct URL in server-side.
 // BACKEND_URL is a plain (non-NEXT_PUBLIC_) env var so it is read at runtime,
 // not baked in at build time. Set it in .env.
 function resolveBackendUrl(): string {
   if (typeof window !== 'undefined') {
-    return '/api';
+    return apiPath('/api');
   }
   const url = process.env.BACKEND_URL;
   if (!url) {
